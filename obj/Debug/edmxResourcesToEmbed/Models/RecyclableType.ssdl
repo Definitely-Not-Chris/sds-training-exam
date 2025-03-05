@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="RecyclableItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Weight" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="ComputedRate" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="ItemDescription" Type="varchar" MaxLength="150" />
+    <Property Name="RecyclableTypeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RecyclableType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Rate" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="MinKg" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="MaxKg" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Recyclabl__Recyc__3A81B327">
+    <End Role="RecyclableType" Type="Self.RecyclableType" Multiplicity="1" />
+    <End Role="RecyclableItem" Type="Self.RecyclableItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RecyclableType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RecyclableItem">
+        <PropertyRef Name="RecyclableTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="RecyclableItem" EntityType="Self.RecyclableItem" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RecyclableType" EntityType="Self.RecyclableType" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Recyclabl__Recyc__3A81B327" Association="Self.FK__Recyclabl__Recyc__3A81B327">
+      <End Role="RecyclableType" EntitySet="RecyclableType" />
+      <End Role="RecyclableItem" EntitySet="RecyclableItem" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="RecyclableItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Weight" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="ComputedRate" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="ItemDescription" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="RecyclableTypeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="RecyclableType" Relationship="Self.FK__Recyclabl__Recyc__403A8C7D" FromRole="RecyclableItem" ToRole="RecyclableType" />
+  </EntityType>
+  <EntityType Name="RecyclableType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Rate" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="MinKg" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="MaxKg" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <NavigationProperty Name="RecyclableItems" Relationship="Self.FK__Recyclabl__Recyc__403A8C7D" FromRole="RecyclableType" ToRole="RecyclableItem" />
+  </EntityType>
+  <Association Name="FK__Recyclabl__Recyc__403A8C7D">
+    <End Role="RecyclableType" Type="Self.RecyclableType" Multiplicity="1" />
+    <End Role="RecyclableItem" Type="Self.RecyclableItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RecyclableType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RecyclableItem">
+        <PropertyRef Name="RecyclableTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="RecyclableItems" EntityType="Self.RecyclableItem" />
+    <EntitySet Name="RecyclableTypes" EntityType="Self.RecyclableType" />
+    <AssociationSet Name="FK__Recyclabl__Recyc__403A8C7D" Association="Self.FK__Recyclabl__Recyc__403A8C7D">
+      <End Role="RecyclableType" EntitySet="RecyclableTypes" />
+      <End Role="RecyclableItem" EntitySet="RecyclableItems" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
